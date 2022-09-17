@@ -100,7 +100,7 @@ def generate_tweet_id(tweet):
 
 def save_tweet_data_to_csv(records, filepath, mode='a+'):
 
-    header = ['User', 'PostDate', 'TweetText', 'other1', 'other2']
+    header = ['User', 'PostDate', 'TweetText']
     with open(filepath, mode=mode, newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         if mode == 'w':
@@ -109,10 +109,7 @@ def save_tweet_data_to_csv(records, filepath, mode='a+'):
             writer.writerow(records)
 
 def scroll_down_page(driver, last_position, num_seconds_to_load=0.5, scroll_attempt=0, max_attempts=5):
-    # """The function will try to scroll down the page and will check the current
-    # and last positions as an indicator. If the current and last positions are the same after `max_attempts`
-    # the assumption is that the end of the scroll region has been reached and the `end_of_scroll_region`
-    # flag will be returned as `True`"""
+    
     end_of_scroll_region = False
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     sleep(num_seconds_to_load)
@@ -138,7 +135,7 @@ def main(search_term, filepath, username, passs, page_sort='People'):
     if not twitter_search_page_term:
         return
 
-    change_page_sort(page_sort, driver, nameOfProfile='Naughtius Maximus')
+    change_page_sort(page_sort, driver, term)
 
     while not end_of_scroll_region:
         postings = collect_all_tweets_from_current_view(driver)#return pagecards with all the tweets header
